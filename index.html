@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Simran 💖</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ffd6e7, #ffeaf3);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 24px;
+      text-align: center;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      z-index: 2;
+    }
+
+    .emoji {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    button {
+      flex: 1;
+      min-width: 120px;
+      padding: 14px 22px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    #yes {
+      background: #ff4d88;
+      color: white;
+      font-weight: 600;
+    }
+
+    #no {
+      background: #e0e0e0;
+      position: relative;
+    }
+
+    .small-text {
+      margin-top: 14px;
+      font-size: 0.75rem;
+      color: #777;
+    }
+
+    .gif-box {
+      background: #000;
+      border-radius: 16px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    /* 🔥 IMPORTANT FOR TENOR */
+    .tenor-wrapper {
+      display: none;
+      min-height: 220px;
+    }
+
+    .tenor-wrapper.active {
+      display: block;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      top: -10px;
+      animation: fall linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" id="card">
+    <div class="emoji">🐱💗</div>
+    <h2>Simran, will you be my Valentine?</h2>
+
+    <div class="buttons">
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+
+    <div class="small-text">“No” seems a bit shy 😏</div>
+  </div>
+
+  <!-- Tenor embed script (ONLY ONCE) -->
+  <script async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    const card = document.getElementById("card");
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+
+    /* ---------- NO BUTTON PANIC ---------- */
+    let panic = 1;
+    function moveNo() {
+      panic += 0.6;
+      const x = (Math.random() * 200 - 100) * panic;
+      const y = (Math.random() * 120 - 60) * panic;
+      const speed = Math.max(0.08, 0.3 - panic * 0.03);
+      noBtn.style.transition = `transform ${speed}s ease-out`;
+      noBtn.style.transform = `translate(${x}px, ${y}px) rotate(${panic * 2}deg)`;
+    }
+
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+
+    /* ---------- CONFETTI ---------- */
+    function launchConfetti() {
+      for (let i = 0; i < 80; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.backgroundColor =
+          ["#ff4d88", "#ffd700", "#7afcff", "#b983ff"]
+          [Math.floor(Math.random() * 4)];
+        c.style.animationDuration = Math.random() * 2 + 2 + "s";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+      }
+    }
+
+    /* ---------- GIF CYCLER ---------- */
+    function startGifCycle() {
+      const gifs = document.querySelectorAll(".tenor-wrapper");
+      let index = 0;
+      gifs[index].classList.add("active");
+
+      setInterval(() => {
+        gifs[index].classList.remove("active");
+        index = (index + 1) % gifs.length;
+        gifs[index].classList.add("active");
+      }, 2500);
+    }
+
+    /* ---------- YES CLICK ---------- */
+    yesBtn.addEventListener("click", () => {
+      card.innerHTML = `
+        <div class="emoji">🎉🥰</div>
+        <h2>YAYYYYY!!!</h2>
+        <p>
+          You didn’t even hesitate 🥹💖<br>
+          <strong>Yes we can 😌✨</strong>
+        </p>
+
+        <div class="gif-box">
+          <div class="tenor-wrapper active">
+            <div class="tenor-gif-embed"
+              data-postid="15684614"
+              data-share-method="host"
+              data-width="100%">
+            </div>
+          </div>
+
+          <div class="tenor-wrapper">
+            <div class="tenor-gif-embed"
+              data-postid="16399199"
+              data-share-method="host"
+              data-width="100%">
+            </div>
+          </div>
+        </div>
+      `;
+
+      launchConfetti();
+
+      /* ⏳ Let DOM paint, then re-run Tenor */
+      setTimeout(() => {
+        if (window.Tenor && Tenor.embed) {
+          Tenor.embed();
+        }
+        startGifCycle();
+      }, 300);
+    });
+  </script>
+
+</body>
+</html>
