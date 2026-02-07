@@ -82,13 +82,12 @@
       overflow: hidden;
     }
 
-    /* 🔥 IMPORTANT FOR TENOR */
-    .tenor-wrapper {
+    .gif-box img {
+      width: 100%;
       display: none;
-      min-height: 220px;
     }
 
-    .tenor-wrapper.active {
+    .gif-box img.active {
       display: block;
     }
 
@@ -123,9 +122,6 @@
 
     <div class="small-text">“No” seems a bit shy 😏</div>
   </div>
-
-  <!-- Tenor embed script (ONLY ONCE) -->
-  <script async src="https://tenor.com/embed.js"></script>
 
   <script>
     const card = document.getElementById("card");
@@ -163,7 +159,7 @@
 
     /* ---------- GIF CYCLER ---------- */
     function startGifCycle() {
-      const gifs = document.querySelectorAll(".tenor-wrapper");
+      const gifs = document.querySelectorAll(".gif-box img");
       let index = 0;
       gifs[index].classList.add("active");
 
@@ -185,33 +181,14 @@
         </p>
 
         <div class="gif-box">
-          <div class="tenor-wrapper active">
-            <div class="tenor-gif-embed"
-              data-postid="15684614"
-              data-share-method="host"
-              data-width="100%">
-            </div>
-          </div>
-
-          <div class="tenor-wrapper">
-            <div class="tenor-gif-embed"
-              data-postid="16399199"
-              data-share-method="host"
-              data-width="100%">
-            </div>
-          </div>
+          <img src="./1.gif">
+          <img src="./2.gif">
+          <img src="./3.gif">
         </div>
       `;
 
       launchConfetti();
-
-      /* ⏳ Let DOM paint, then re-run Tenor */
-      setTimeout(() => {
-        if (window.Tenor && Tenor.embed) {
-          Tenor.embed();
-        }
-        startGifCycle();
-      }, 300);
+      startGifCycle();
     });
   </script>
 
